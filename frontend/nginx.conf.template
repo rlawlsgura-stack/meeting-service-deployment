@@ -1,0 +1,32 @@
+server {
+    listen 8080;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Docker 네트워크에서 API 컨테이너가 교체된 뒤에도 이름을 다시 조회한다.
+    resolver 127.0.0.11 valid=10s ipv6=off;
+    set $api_upstream "${API_UPSTREAM}";
+
+    location = /api {
+        proxy_pass $api_upstream;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 5s;
+        proxy_read_timeout 180s;
+    }
+
+    location ^~ /api/ {
+        proxy_pass $api_upstream;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 5s;
+        proxy_read_timeout 180s;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}

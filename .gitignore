@@ -1,0 +1,32 @@
+# 실제 환경 설정은 제외하고, 비밀값 없는 예시 파일은 유지한다.
+.env
+.env.*
+!.env.example
+
+# Python 설치 환경과 자동 생성 캐시
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# 프런트엔드 설치 파일과 빌드 결과
+node_modules/
+dist/
+
+# 운영체제 임시 파일
+.DS_Store
+Thumbs.db
+
+# 로컬 실행 데이터와 개인 인증서
+*.log
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.key
+*.pem
+*.p12
+*.pfx
